@@ -1,0 +1,20 @@
+[project]
+name = "semantic-web-and-social-networks"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Daniel Skalski", email = "skalskidaniel@icloud.com" },
+    { name = "Wiktor Talarek", email = "wiktal123@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "rdflib>=7.6.0",
+]
+
+[project.scripts]
+semantic-web-and-social-networks = "semantic_web_and_social_networks:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
