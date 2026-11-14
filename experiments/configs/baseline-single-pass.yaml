@@ -1,0 +1,21 @@
+# Single-pass variant of the baseline (all CQs in one call), as in the original scaffold plan.
+name: baseline-single-pass
+data_dir: data
+results_dir: experiments/results
+ontologies: all
+use_description: false
+llm:
+  provider: claude-code   # or: anthropic | openai (pip extra) | fake (offline heuristic)
+  model: claude-sonnet-5-5
+  temperature: 0.0
+  max_tokens: 16000
+  seed: 42
+  cache_dir: .cache/llm
+evaluation:
+  threshold: 0.85
+  posthoc_coverage: true
+  final_consistency: true
+system:
+  kind: ontogenia
+  baseline_mode: single_pass
+  use_patterns: true

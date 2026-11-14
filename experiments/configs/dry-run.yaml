@@ -1,0 +1,19 @@
+# Offline smoke test of the whole pipeline; numbers are meaningless.
+name: dry-run
+data_dir: data
+results_dir: experiments/results
+ontologies: [awo, stuff, SILKNOW]
+use_description: false
+llm:
+  provider: fake
+  model: claude-sonnet-5-5
+  temperature: 0.0
+  max_tokens: 16000
+  seed: 42
+  cache_dir: .cache/llm
+evaluation:
+  threshold: 0.85
+  posthoc_coverage: true
+  final_consistency: true
+system:
+  kind: agents

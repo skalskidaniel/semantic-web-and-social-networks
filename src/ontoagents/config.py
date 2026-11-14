@@ -31,6 +31,10 @@ class SystemConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     kind: Literal["agents", "ontogenia"] = "agents"
+    baseline_mode: Literal["cq_by_cq", "single_pass"] = Field(
+        default="cq_by_cq",
+        description="Ontogenia: one CQ per call with the ontology so far (paper) or all at once.",
+    )
     planner: Literal["group", "llm"] = "group"
     batch_size: int = Field(default=5, ge=1)
     use_translator: bool = True
@@ -48,7 +52,7 @@ class SystemConfig(BaseModel):
     def label(self) -> str:
         """Short identifier encoding the ablation."""
         if self.kind == "ontogenia":
-            return "ontogenia"
+            return "ontogenia" if self.baseline_mode == "cq_by_cq" else "ontogenia-single"
         parts = ["agents", self.planner]
         for flag, tag in (
             (self.use_translator, "notrans"),

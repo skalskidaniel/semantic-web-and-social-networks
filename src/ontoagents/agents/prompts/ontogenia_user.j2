@@ -1,5 +1,5 @@
 {% if description %}
-Domain description:
+Ontology story:
 {{ description }}
 
 {% endif %}
@@ -10,7 +10,16 @@ Ontology design patterns:
 
 {% endfor %}
 {% endif %}
+{% if previous is not none %}
+Ontology built so far:
+```turtle
+{{ previous }}
+```
+
+Competency question to model now:
+{% else %}
 Competency questions:
+{% endif %}
 {% for cq in cqs %}
 - [{{ cq.id }}] {{ cq.question }}
 {% endfor %}

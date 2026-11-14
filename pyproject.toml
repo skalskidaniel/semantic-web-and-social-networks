@@ -55,6 +55,9 @@ module-name = "ontoagents"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+filterwarnings = [
+    "ignore:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
+]
 markers = [
     "reasoner: needs a Java runtime for HermiT (skipped when java is missing)",
 ]

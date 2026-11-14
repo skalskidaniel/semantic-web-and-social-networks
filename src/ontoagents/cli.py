@@ -86,7 +86,12 @@ def build_generator(cfg: ExperimentConfig, llm: LLMClient) -> OntologyGenerator:
     patterns = StaticPatternRepository() if s.use_patterns else None
     if s.kind == "ontogenia":
         return OntogeniaBaseline(
-            llm, patterns=patterns, temperature=temperature, max_tokens=max_tokens
+            llm,
+            patterns=patterns,
+            pattern_k=s.pattern_k,
+            mode=s.baseline_mode,
+            temperature=temperature,
+            max_tokens=max_tokens,
         )
     planner: Planner = (
         LLMPlanner(llm, batch_size=s.batch_size, temperature=temperature, max_tokens=max_tokens)

@@ -1,0 +1,22 @@
+# Full system: group planner, translator + coverage feedback, critic, regression, HermiT.
+name: agents-full
+data_dir: data
+results_dir: experiments/results
+ontologies: all
+use_description: false
+llm:
+  provider: claude-code   # or: anthropic | openai (pip extra) | fake (offline heuristic)
+  model: claude-sonnet-5-5
+  temperature: 0.0
+  max_tokens: 16000
+  seed: 42
+  cache_dir: .cache/llm
+evaluation:
+  threshold: 0.85
+  posthoc_coverage: true
+  final_consistency: true
+system:
+  kind: agents
+  planner: group
+  batch_size: 5
+  max_repair: 3
