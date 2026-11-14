@@ -22,6 +22,7 @@ CQs ──► Planner ──► Generator ──► merge ──► CQ→SPARQL 
 ```bash
 uv sync                      # Python 3.14, dev tools included
 uv run pre-commit install    # ruff, ruff-format, ty, import-linter
+uv sync --group notebooks    # pandas/matplotlib for notebooks/data_analysis.ipynb
 ```
 
 HermiT needs a **Java runtime** (`java` on `PATH`). Without one, the consistency validator
@@ -45,7 +46,7 @@ uv sync --extra anthropic && export ANTHROPIC_API_KEY=...
 uv run ontoagents run --config experiments/configs/agents-full.yaml --provider anthropic
 ```
 
-The full benchmark (baseline, full system and all ablations, then aggregation):
+The full benchmark (both baselines, the full system and every ablation, then aggregation). It is expensive: `agents-full` makes about 2–4 calls per batch of 5 CQs, and Polifonia alone has 361 CQs. Start with `--max-cqs 30`, or select ontologies with `--ontology`:
 
 ```bash
 WORKERS=4 experiments/run_all.sh            # optionally: --max-cqs 30 for a cheaper pass
