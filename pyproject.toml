@@ -1,7 +1,7 @@
 [project]
-name = "semantic-web-and-social-networks"
+name = "ontoagents"
 version = "0.1.0"
-description = "Add your description here"
+description = "LangGraph multi-agent ontology generation from competency questions, with an Ontogenia-style baseline and alignment-based evaluation."
 readme = "README.md"
 authors = [
     { name = "Daniel Skalski", email = "skalskidaniel@icloud.com" },
@@ -9,15 +9,106 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
-    "matplotlib>=3.11.2",
-    "pandas>=3.0.6",
+    "jinja2>=3.1",
+    "langchain-core>=0.3",
+    "langgraph>=0.6",
+    "numpy>=2.2",
+    "owlready2>=0.47",
+    "pydantic>=2.11",
+    "pydantic-settings>=2.10",
     "pyyaml>=6.0.3",
+    "rapidfuzz>=3.13",
     "rdflib>=7.6.0",
+    "scipy>=1.16",
 ]
 
+[project.optional-dependencies]
+anthropic = ["langchain-anthropic>=0.3"]
+openai = ["langchain-openai>=0.3"]
+
 [project.scripts]
-semantic-web-and-social-networks = "semantic_web_and_social_networks:main"
+ontoagents = "ontoagents.cli:main"
+
+[dependency-groups]
+dev = [
+    "import-linter>=2.3",
+    "pre-commit>=4.2",
+    "pytest>=8.4",
+    "ruff>=0.12",
+    "ty>=0.0.1a16",
+]
+notebooks = [
+    "ipykernel>=6.29",
+    "matplotlib>=3.11.2",
+    "pandas>=3.0.6",
+]
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14.0"]
 build-backend = "uv_build"
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.uv.build-backend]
+module-name = "ontoagents"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "reasoner: needs a Java runtime for HermiT (skipped when java is missing)",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "TID", "ANN", "D"]
+ignore = ["D105", "D107", "D203", "D213", "D401", "ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+# Docstrings are enforced for the domain layer and the public Protocols/ABCs only.
+"!src/ontoagents/{domain/**,llm/client.py,validation/base.py,evaluation/metrics.py,evaluation/alignment.py,patterns/repository.py,agents/planner.py}" = ["D"]
+"tests/**" = ["ANN", "D"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.importlinter]
+root_package = "ontoagents"
+include_external_packages = false
+
+[[tool.importlinter.contracts]]
+name = "Layered architecture"
+type = "layers"
+layers = [
+    "ontoagents.cli",
+    "ontoagents.evaluation | ontoagents.baselines | ontoagents.graph",
+    "ontoagents.agents | ontoagents.validation",
+    "ontoagents.llm | ontoagents.patterns | ontoagents.data",
+    "ontoagents.domain",
+]
+
+[[tool.importlinter.contracts]]
+name = "Generation side never sees evaluation, baselines or the reference"
+type = "forbidden"
+source_modules = [
+    "ontoagents.agents",
+    "ontoagents.graph",
+    "ontoagents.validation",
+    "ontoagents.llm",
+    "ontoagents.patterns",
+]
+forbidden_modules = [
+    "ontoagents.evaluation",
+    "ontoagents.baselines",
+    "ontoagents.data.reference",
+]
+
+[[tool.importlinter.contracts]]
+name = "Baselines do not depend on evaluation or the reference"
+type = "forbidden"
+source_modules = ["ontoagents.baselines"]
+forbidden_modules = ["ontoagents.evaluation", "ontoagents.data.reference"]

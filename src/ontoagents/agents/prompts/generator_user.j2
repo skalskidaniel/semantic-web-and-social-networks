@@ -1,0 +1,31 @@
+{% if description %}
+Domain description:
+{{ description }}
+
+{% endif %}
+Current ontology signature (terms you may reuse):
+{{ signature }}
+
+{% if patterns %}
+Ontology design patterns that may help (adapt them to the ":" namespace; use only if relevant):
+{% for p in patterns %}
+{{ p }}
+
+{% endfor %}
+{% endif %}
+Competency questions to support in this step:
+{% for cq in cqs %}
+- [{{ cq.id }}] {{ cq.question }}
+{% endfor %}
+{% if feedback %}
+
+Your previous attempt for these CQs was rejected by the validators.
+Previous fragment:
+```turtle
+{{ previous_fragment }}
+```
+Required fixes:
+{{ feedback }}
+
+Return a corrected, complete fragment for this batch (it replaces the previous attempt).
+{% endif %}

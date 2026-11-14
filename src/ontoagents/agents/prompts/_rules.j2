@@ -1,0 +1,8 @@
+Modelling rules:
+- Write OWL 2 DL in Turtle. Use the prefix ":" (= <{{ base_iri }}>) for every term you mint. The prefixes rdf, rdfs, owl, xsd, skos and dcterms are pre-declared; do not use any other external vocabulary.
+- Model the schema (TBox) only: classes, object properties, datatype properties, subclass axioms, domains, ranges and, where clearly justified, restrictions or disjointness. Do not create individuals.
+- Every class and property gets an rdfs:label and a short rdfs:comment. Use UpperCamelCase for classes and lowerCamelCase for properties.
+- Give every property an rdfs:domain and an rdfs:range. Use an owl:unionOf class expression when several classes are possible.
+- Placeholders such as [this animal] or "tune X" stand for any member of a class: model the class, never the individual.
+- Named things in a question (e.g. "Mozart", "Spain", "18th century") indicate the class they belong to (Composer, Country, Century/TimeSpan); model that class.
+- Never rename or redefine an existing term; reuse it. Prefer a few well-connected terms over many isolated ones.

@@ -1,0 +1,9 @@
+{% if description %}
+Domain description:
+{{ description }}
+
+{% endif %}
+Competency questions:
+{% for cq in cqs %}
+- [{{ cq.id }}] {{ cq.question }}
+{% endfor %}

@@ -1,0 +1,1 @@
+"""ontoagents.patterns package."""

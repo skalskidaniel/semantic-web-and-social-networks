@@ -1,0 +1,14 @@
+Ontology signature:
+{{ signature }}
+
+Competency questions:
+{% for cq in cqs %}
+- [{{ cq.id }}] {{ cq.question }}
+{% endfor %}
+{% if parse_errors %}
+
+Your previous answer contained SPARQL that does not parse. Fix these queries:
+{% for cq_id, error in parse_errors.items() %}
+- {{ cq_id }}: {{ error }}
+{% endfor %}
+{% endif %}
